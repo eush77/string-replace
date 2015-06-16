@@ -8,6 +8,22 @@ Asynchronous version of [String.prototype.replace].
 
 [String.prototype.replace]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace
 
+## Example
+
+```js
+stringReplace('name: {name}, value: {value}', /\{([^}]+)\}/g, replace, function done(result) {
+  console.log(result);
+});
+
+function replace(cb, match, key) {
+  // Do some async stuff here.
+  // Arguments to this function are almost the same as for String.prototype.replace.
+  // Except for the callback.
+  // ...
+  cb(value);
+}
+```
+
 ## API
 
 ### `stringReplace(string, pattern, replacer(cb, match, ...), cb(result))`
