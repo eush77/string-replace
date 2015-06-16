@@ -1,6 +1,6 @@
 'use strict';
 
-var stringReplace = require('../lib/string-replace');
+var stringReplace = require('..');
 
 var test = require('tape');
 
