@@ -1,0 +1,32 @@
+{
+  "name": "string-replace",
+  "version": "0.0.0",
+  "description": "Asynchronous String.prototype.replace, sequential or parallel",
+  "author": "Eugene Sharygin <eush77@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "homepage": "https://github.com/eush77/string-replace",
+  "repository": "eush77/string-replace",
+  "bugs": {
+    "url": "https://github.com/eush77/string-replace/issues"
+  },
+  "keywords": [
+    "string",
+    "replace",
+    "async",
+    "asynchronous",
+    "match",
+    "callback",
+    "sequence",
+    "parallel"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "tape": "^4.0.0"
+  }
+}
