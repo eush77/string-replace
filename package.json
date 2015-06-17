@@ -1,6 +1,6 @@
 {
   "name": "string-replace",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "Asynchronous String.prototype.replace, sequential or parallel",
   "author": "Eugene Sharygin <eush77@gmail.com>",
   "license": "MIT",
