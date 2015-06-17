@@ -17,7 +17,8 @@ Asynchronous version of [String.prototype.replace].
 
 ```js
 stringReplace('name: {name}, value: {value}', /\{([^}]+)\}/g, replace,
-              function done(result) {
+              function done(err, result) {
+  if (err) throw err;
   console.log(result);
 });
 
@@ -26,13 +27,13 @@ function replace(cb, match, key) {
   // Arguments to this function are almost the same as for String.prototype.replace.
   // Except for the callback.
   // ...
-  cb(value);
+  cb(null, value);
 }
 ```
 
 ## API
 
-### `stringReplace(string, pattern, replacer(cb, match, ...), [opts], cb(result))`
+### `stringReplace(string, pattern, replacer(cb, match, ...), [opts], cb(err, result))`
 
 Applies [String.prototype.replace] asynchronously.
 

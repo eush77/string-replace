@@ -22,15 +22,17 @@ module.exports = function (string, pattern, replacer, opts, cb) {
 
   var loop = opts.parallel
         ? function () {
-          var callback = afterAll(function () {
-            cb(matches.join(''));
+          var callback = afterAll(function (err) {
+            return err
+              ? cb(err)
+              : cb(null, matches.join(''));
           });
 
           for (var i = 1; i < matches.length; i += 2) {
             (function (i) {
               replacer.apply(null, [callback(next)].concat(matches[i]));
 
-              function next(replacement) {
+              function next(err, replacement) {
                 matches[i] = replacement;
               }
             }(i));
@@ -38,12 +40,13 @@ module.exports = function (string, pattern, replacer, opts, cb) {
         }
       : function loop(i) {
         if (matches.length <= i) {
-          return cb(matches.join(''));
+          return cb(null, matches.join(''));
         }
 
         replacer.apply(null, [next].concat(matches[i]));
 
-        function next(replacement) {
+        function next(err, replacement) {
+          if (err) return cb(err);
           matches[i] = replacement;
           loop(i + 2);
         }
