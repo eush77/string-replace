@@ -32,12 +32,13 @@ function replace(cb, match, key) {
 
 ## API
 
-### `stringReplace(string, pattern, replacer(cb, match, ...), cb(result))`
+### `stringReplace(string, pattern, replacer(cb, match, ...), [opts], cb(result))`
 
 Applies [String.prototype.replace] asynchronously.
 
 Replaces all occurences of `pattern` (regexp or string) in a `string` with invocations of `replacer` function. Functionally equivalent to `string.replace(pattern, replacer(match, ...))` but `replacer` has to return value by calling `cb`.
 
+Replacers are firing in sequence unless `opts.parallel` is set to `true`.
 
 ## Install
 

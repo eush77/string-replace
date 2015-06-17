@@ -25,7 +25,9 @@
     "sequence",
     "parallel"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "after-all": "^2.0.2"
+  },
   "devDependencies": {
     "tape": "^4.0.0"
   }

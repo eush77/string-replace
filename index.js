@@ -1,7 +1,14 @@
 'use strict';
 
+var afterAll = require('after-all');
 
-module.exports = function (string, pattern, replacer, cb) {
+
+module.exports = function (string, pattern, replacer, opts, cb) {
+  if (typeof opts == 'function') {
+    cb = opts;
+    opts = {};
+  }
+
   var matches = [];
   var end = 0;
 
@@ -13,18 +20,34 @@ module.exports = function (string, pattern, replacer, cb) {
 
   matches.push(string.slice(end));
 
-  var loop = function loop(i) {
-    if (matches.length <= i) {
-      return cb(matches.join(''));
-    }
+  var loop = opts.parallel
+        ? function () {
+          var callback = afterAll(function () {
+            cb(matches.join(''));
+          });
 
-    replacer.apply(null, [next].concat(matches[i]));
+          for (var i = 1; i < matches.length; i += 2) {
+            (function (i) {
+              replacer.apply(null, [callback(next)].concat(matches[i]));
 
-    function next(replacement) {
-      matches[i] = replacement;
-      loop(i + 2);
-    }
-  };
+              function next(replacement) {
+                matches[i] = replacement;
+              }
+            }(i));
+          }
+        }
+      : function loop(i) {
+        if (matches.length <= i) {
+          return cb(matches.join(''));
+        }
 
-  process.nextTick(loop.bind(null, 1));
+        replacer.apply(null, [next].concat(matches[i]));
+
+        function next(replacement) {
+          matches[i] = replacement;
+          loop(i + 2);
+        }
+      }.bind(null, 1);
+
+  process.nextTick(loop);
 };

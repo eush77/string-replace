@@ -66,7 +66,7 @@ test('next-tick business', function (t) {
 test('sequence rule', function (t) {
   var count = 0;
 
-  stringReplace('. . . .', /\s/g, next, function (result) {
+  stringReplace('. . . .', /\s/g, next, function () {
     t.equal(count, 3, 3);
     t.end();
   });
@@ -84,5 +84,28 @@ test('sequence rule', function (t) {
         }, 0x20);
       });
     });
+  }
+});
+
+
+test('parallel rule', function (t) {
+  var time = 0;
+  var callbacks = [];
+
+  stringReplace('. . . .', /\s/g, next, { parallel: true }, function () {
+    t.equal(++time, 4, 'finish');
+    t.end();
+  });
+
+  function next(cb, match, index) {
+    callbacks.push(cb);
+    t.equal(++time, callbacks.length,
+            'match found (' + JSON.stringify(match) + ', index=' + index + ')');
+
+    if (callbacks.length == 3) {
+      callbacks.forEach(function (cb) {
+        cb();
+      });
+    }
   }
 });
