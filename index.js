@@ -64,12 +64,17 @@ module.exports = function (string, pattern, replacer, opts, cb) {
       return cb(null, parts.join(''));
     }
 
-    replacer.apply(null, [next].concat(matches[i]));
+    var match = matches[i];
+
+    // Update the intermediate result.
+    match[match.length - 1] = parts.join('');
+
+    replacer.apply(null, [next].concat(match));
 
     function next (err, replacement) {
       if (err) return cb(err);
 
-      parts[1 + 2 * i] = replacement;
+      parts.splice(0, 2, parts[0] + replacement);
       sequentialLoop(i + 1);
     }
   }

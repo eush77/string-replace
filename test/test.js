@@ -70,6 +70,37 @@ test('next-tick business', function (t) {
 });
 
 
+test('intermediate results when sequencing', function (t) {
+  stringReplace('foo bar baz\n', /\w{3}/g, replace, function (err, result) {
+    t.error(err);
+    t.equal(result, 'abc def ghi\n');
+    t.end();
+  });
+
+  var next = [
+    function (cb, foo, index, result) {
+      t.equal(index, 0, 'first index');
+      t.equal(result, 'foo bar baz\n', 'first result');
+      cb(null, 'abc');
+    },
+    function (cb, bar, index, result) {
+      t.equal(index, 4, 'second index');
+      t.equal(result, 'abc bar baz\n', 'second result');
+      cb(null, 'def');
+    },
+    function (cb, baz, index, result) {
+      t.equal(index, 8, 'third index');
+      t.equal(result, 'abc def baz\n', 'third result');
+      cb(null, 'ghi');
+    }
+  ];
+
+  function replace() {
+    next.shift().apply(this, arguments);
+  }
+});
+
+
 test('sequence rule', function (t) {
   var count = 0;
 
