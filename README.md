@@ -9,7 +9,7 @@ Asynchronous version of [String.prototype.replace].
 [String.prototype.replace]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace
 
 [travis]: https://travis-ci.org/eush77/string-replace
-[travis-badge]: https://travis-ci.org/eush77/string-replace.svg
+[travis-badge]: https://travis-ci.org/eush77/string-replace.svg?branch=master
 [david]: https://david-dm.org/eush77/string-replace
 [david-badge]: https://david-dm.org/eush77/string-replace.png
 
